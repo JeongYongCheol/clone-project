@@ -26,7 +26,7 @@ public class ProductJdbcRepository implements ProductRepository {
     @Override
     public Product insert(Product product) {
         var update = jdbcTemplate.update("INSERT INTO products(product_id, product_name, category, price, description, created_at, updated_at)" +
-                 " VALUES (UUID_TO_BIN(:poduct_id), :productName, :category, :price, :description, :createdAt, :updateAt)", toParamMap(product));
+                 " VALUES (UUID_TO_BIN(:productId), :productName, :category, :price, :description, :createdAt, :updatedAt)", toParamMap(product));
         if(update != 1) {
             throw new RuntimeException("Nothing was inserted");
         }
