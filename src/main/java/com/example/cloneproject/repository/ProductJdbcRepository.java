@@ -6,12 +6,14 @@ import lombok.AllArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
 import static com.example.cloneproject.Utils.toLocalDateTime;
 import static com.example.cloneproject.Utils.toUUID;
 
+@Repository
 @AllArgsConstructor
 public class ProductJdbcRepository implements ProductRepository {
 
