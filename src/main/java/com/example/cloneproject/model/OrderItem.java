@@ -1,4 +1,8 @@
 package com.example.cloneproject.model;
 
-public class OrderItem {
+import lombok.Getter;
+
+import java.util.UUID;
+
+public record OrderItem(UUID productId, Category category, long price, int quantity) {
 }

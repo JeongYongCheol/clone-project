@@ -1,11 +1,13 @@
 package com.example.cloneproject.model;
 
+import lombok.Getter;
 import lombok.ToString;
 import org.springframework.util.Assert;
 
 import java.util.Objects;
 import java.util.regex.Pattern;
 
+@Getter
 @ToString
 public class Email {
 
