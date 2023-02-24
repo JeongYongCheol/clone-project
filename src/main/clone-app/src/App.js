@@ -1,11 +1,17 @@
 import './App.css'
 import 'bootstrap/dist/css/bootstrap.css'
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
+import axios from "axios";
 
 function Product(props) {
+  const id = props.id;
   const productName = props.productName;
   const category = props.category;
   const price = props.price;
+  const handleAddBtnClicked = e => {
+    props.onAddClick(id);
+  }
+
   return (
       <>
         <div className="col-2"><img className="img-fluid" src="https://i.imgur.com/HKOFQYa.jpeg" alt=""/></div>
@@ -14,19 +20,21 @@ function Product(props) {
           <div className="row">{productName}</div>
         </div>
         <div className="col text-center price">{price}원</div>
-        <div className="col text-end action"><a className="btn btn-small btn-outline-dark" href="">추가</a></div>
+        <div className="col text-end action">
+          <button onClick={handleAddBtnClicked} className="btn btn-small btn-outline-dark" href="">추가</button>
+        </div>
       </>
   )
 }
 
-function ProductList({ products = []}) {
+function ProductList({ products = [], onAddClick}) {
   return (
       <React.Fragment>
         <h5 className="flex-grow-0"><b>상품 목록</b></h5>
         <ul className="list-group products">
           {products.map(value =>
               <li key={value.id} className="list-group-item d-flex mt-3">
-                <Product productName={value.productName} category={value.category} price={value.price}/>
+                <Product {...value} onAddClick={onAddClick}/>
               </li>
           )}
         </ul>
@@ -83,8 +91,19 @@ function App() {
     {id: 'uuid-2', productName: '콜롬비아 커피2', category:'커피빈', price: 5000},
     {id: 'uuid-3', productName: '콜롬비아 커피3', category:'커피빈', price: 5000}
   ]);
-  const [items, setItems] = useState([
-  ]);
+  const [items, setItems] = useState([]);
+  const handleAddClicked = id => {
+    const product = products.find(v => v.id === id);
+    const found = items.find(v => v.id === id);
+    const updateItems =
+        found ? items.map(v => (v.id === id) ? {...v, count: v.count+1} : v) : [...items, {...product, count: 1}]
+    setItems(updateItems);
+    console.log(products.find(value => value.id === id), "added")
+  }
+  useEffect(() => {
+      axios.get('http://localhost:8080/api/v1/products')
+          .then(v => setProducts(v.data))
+  }, []);
 
   return (
       <div className="container-fluid">
@@ -94,7 +113,7 @@ function App() {
       <div className="card">
         <div className="row">
           <div className="col-md-8 mt-4 d-flex flex-column align-items-start p-3 pt-0">
-            <ProductList products={products}/>
+            <ProductList products={products} onAddClick={handleAddClicked}/>
           </div>
           <div className="col-md-4 summary p-4">
             <Summary items={items}/>
