@@ -5,10 +5,12 @@ import com.example.cloneproject.model.Email;
 import com.example.cloneproject.model.Order;
 import com.example.cloneproject.service.OrderService;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+@Slf4j
 @RestController
 @AllArgsConstructor
 public class OrderRestController {
